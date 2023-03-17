@@ -1,7 +1,14 @@
 import './Rooms.scss';
 
-function Rooms() {
-  return <div className="rooms debug-border">ffff</div>;
+function Rooms({ show }: { show: boolean }) {
+  return (
+    <div
+      style={{ display: `${show ? 'block' : 'none'}` }}
+      className="rooms debug-border"
+    >
+      ffff
+    </div>
+  );
 }
 
 export default Rooms;

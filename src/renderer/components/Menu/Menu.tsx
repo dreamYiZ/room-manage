@@ -1,5 +1,8 @@
 import './Menu.scss';
 import React from 'react';
+import TocRoundedIcon from '@mui/icons-material/TocRounded';
+import LowPriorityRoundedIcon from '@mui/icons-material/LowPriorityRounded';
+import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 
 function Menu({
   menuActive,
@@ -19,7 +22,8 @@ function Menu({
           onClick={() => setMenuActive(0)}
           onKeyDown={() => setMenuActive(0)}
         >
-          订房
+          <TocRoundedIcon fontSize="large" />
+          <div className="menu-text">订房</div>
         </div>
         <div
           role="presentation"
@@ -29,7 +33,8 @@ function Menu({
           onClick={() => setMenuActive(1)}
           onKeyDown={() => setMenuActive(1)}
         >
-          退房
+          <LowPriorityRoundedIcon fontSize="large" />
+          <div className="menu-text">退房</div>
         </div>
       </div>
       <div className="bottom-menu">
@@ -41,7 +46,8 @@ function Menu({
           onClick={() => setMenuActive(2)}
           onKeyDown={() => setMenuActive(2)}
         >
-          系统
+          <SettingsSuggestRoundedIcon fontSize="large" />
+          <div className="menu-text">系统</div>
         </div>
       </div>
     </div>

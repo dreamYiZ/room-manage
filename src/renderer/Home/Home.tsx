@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../components/layout/Layout';
 import Rooms from '../components/Rooms/Rooms';
+import System from '../components/System/System';
 import Menu from '../components/Menu/Menu';
 
 function Home() {
@@ -11,7 +12,8 @@ function Home() {
       <Layout
         Menu={<Menu menuActive={menuActive} setMenuActive={setMenuActive} />}
       >
-        <Rooms />
+        <Rooms show={menuActive < 2} />
+        <System show={menuActive === 2} />
       </Layout>
     </div>
   );
