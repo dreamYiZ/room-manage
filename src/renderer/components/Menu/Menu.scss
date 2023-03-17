@@ -1,5 +1,29 @@
-.menu{
+.menu {
   height: 100%;
-  width: 160px;
-  border-right: 1px solid red;
+  width: 110px;
+  border-right: 1px solid rgba(121, 145, 14, 0.7);
+  font-size: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 10px;
+  padding-right: 20px;
+}
+
+$border-bottom-width: 6px;
+
+.menu-item {
+  margin-bottom: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+  padding-bottom: 2px;
+  text-align: center;
+  border-bottom: $border-bottom-width solid transparent;
+  transition: 0.2s ease-in-out;
+}
+
+.active-menu-item {
+  border-bottom: $border-bottom-width solid #6f711c;
+  color: #e7b10e;
+  transform: scale(1.2);
 }

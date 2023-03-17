@@ -7,7 +7,7 @@ body {
   color: white;
   height: 100vh;
   background-color: #8BC6EC;
-  background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+  background-image: linear-gradient(135deg, #1b435d 0%, #224b4a 50%, #224b2c 100%);
   font-family: sans-serif;
   overflow-y: hidden;
   display: flex;
@@ -19,4 +19,16 @@ body {
   margin:0;
   padding:0;
   box-sizing: border-box;
+}
+
+
+.debug-border{
+  border: 1px solid #834848;
+}
+
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
