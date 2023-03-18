@@ -30,7 +30,7 @@ function SystemMenuAction({
         >
           <Box
             sx={{
-              width: 700,
+              width: '80vw',
               height: '100%',
               backgroundColor: 'primary.light',
               padding: '20px',

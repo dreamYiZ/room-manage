@@ -32,9 +32,7 @@ export default function AddTag() {
     setOpenSnakeBarOpen(false);
   };
 
-  const handleClick = () => {
-    console.info('You clicked the Chip.');
-  };
+  const handleClick = () => {};
 
   const addTag = () => {
     if (newTag) {
@@ -58,7 +56,6 @@ export default function AddTag() {
   useEffect(() => {
     async function getTagsFromStore() {
       const gotTags = await store.getTags();
-      console.log('gotTags', gotTags);
       // setData(json);
       setTags([...new Set([...gotTags])]);
     }

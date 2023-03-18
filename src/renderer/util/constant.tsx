@@ -2,6 +2,8 @@ export const ACTION_TYPES = {
   ADD_ROOM: '___ADD_ROOM_ACTION',
   DELETE_ROOM: '___DELETE_ROOM_ACTION',
   ADD_TAG: '___ADD_TAG_ACTION',
+  ORDER_ROOM: '___ORDER_ROOM_ACTION',
+  SYSTEM_SETTINGS: '___SYSTEM_SETTINGS_ACTION',
 } as const;
 
 export type KEYS_ACTION_TYPES = keyof typeof ACTION_TYPES;
@@ -16,6 +18,7 @@ export const SYSTEM_MENU = [
   { title: '添加房间', action: ACTION_TYPES.ADD_ROOM },
   { title: '删除房间', action: ACTION_TYPES.DELETE_ROOM },
   { title: '添加标签', action: ACTION_TYPES.ADD_TAG },
+  { title: '系统设置', action: ACTION_TYPES.SYSTEM_SETTINGS },
 ];
 
 export const SYSTEM_INFO = {

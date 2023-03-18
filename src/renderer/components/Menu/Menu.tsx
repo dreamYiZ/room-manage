@@ -47,7 +47,7 @@ function Menu({
           onKeyDown={() => setMenuActive(2)}
         >
           <SettingsSuggestRoundedIcon fontSize="large" />
-          <div className="menu-text">系统</div>
+          <div className="menu-text">设置</div>
         </div>
       </div>
     </div>

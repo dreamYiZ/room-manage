@@ -2,13 +2,19 @@
 // @ts-nocheck
 
 const getAllRooms = () => {
-  // store.set('rooms',  )
-  // const rooms = store.get('rooms');
-  // return rooms || [];
+  return window.electron.ipcRenderer.invoke('ipc-get-rooms');
+};
+
+const deleteAllRooms = () => {
+  return window.electron.ipcRenderer.sendMessage('ipc-delete-all-rooms');
 };
 
 const addRoom = (room: any) => {
   return window.electron.ipcRenderer.invoke('ipc-add-room', room);
+};
+
+const deleteRoom = (room: any) => {
+  return window.electron.ipcRenderer.sendMessage('ipc-delete-room', room);
 };
 
 const getTags = () => {
@@ -21,4 +27,12 @@ const deleteTag = (tag) => {
   return window.electron.ipcRenderer.invoke('ipc-delete-tag', tag);
 };
 
-export default { addRoom, getAllRooms, getTags, addTag, deleteTag };
+export default {
+  addRoom,
+  getAllRooms,
+  deleteRoom,
+  getTags,
+  addTag,
+  deleteTag,
+  deleteAllRooms,
+};

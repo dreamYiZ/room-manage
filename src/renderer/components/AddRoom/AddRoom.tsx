@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AddRoom.scss';
 import TextField from '@mui/material/TextField';
 import FilledInput from '@mui/material/FilledInput';
@@ -23,7 +23,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-type Room = {
+export type T_Room = {
   sn: string;
   name: string;
   longName: string;
@@ -32,19 +32,31 @@ type Room = {
   tag: string;
 };
 
-const defaultRoom: Room = {
-  sn: '',
-  name: '',
-  longName: '',
-  price: 0,
-  sortNumber: 0,
-  tag: '新增房间',
-};
-
 export default function AddRoom() {
-  const [tags, setTags] = React.useState({});
+  const defaultRoom: T_Room = {
+    sn: '',
+    name: '',
+    longName: '',
+    price: 0,
+    sortNumber: 0,
+    tag: '',
+  };
+  const defaultValidateRoom = {
+    sn: {
+      helperText: '',
+      error: false,
+    },
+    name: { helperText: '', error: false },
+    longName: { helperText: '', error: false },
+    price: { helperText: '', error: false },
+    sortNumber: { helperText: '', error: false },
+    tag: { helperText: '', error: false },
+  };
+
+  const [tags, setTags] = React.useState([]);
   const [openSnakeBar, setOpenSnakeBarOpen] = React.useState(false);
-  const [room, setRoom] = useState<Room>(defaultRoom);
+  const [room, setRoom] = useState<T_Room>(defaultRoom);
+  const [validateRoom, setValidateRoom] = useState(defaultValidateRoom);
 
   const handleSnackbarClose = (
     event?: React.SyntheticEvent | Event,
@@ -60,6 +72,74 @@ export default function AddRoom() {
   const onClickAddRoom = async () => {
     console.log('onClickAddRoom');
     // console.log(store.set('foo', 'foo bar'));
+    let errorRoom = false;
+    setValidateRoom(defaultValidateRoom);
+
+    if (!room.sn) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        sn: {
+          error: true,
+          helperText: '请输入房间编号',
+        },
+      }));
+      errorRoom = true;
+    }
+    if (!room.name) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        name: {
+          error: true,
+          helperText: '请输入房间简称',
+        },
+      }));
+      errorRoom = true;
+    }
+    if (!room.longName) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        longName: {
+          error: true,
+          helperText: '请输入房间名称',
+        },
+      }));
+      errorRoom = true;
+    }
+    if (!room.price) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        price: {
+          error: true,
+          helperText: '请输入房间价格',
+        },
+      }));
+      errorRoom = true;
+    }
+    if (!room.tag) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        tag: {
+          error: true,
+          helperText: '请选择房间标签',
+        },
+      }));
+      errorRoom = true;
+    }
+    if (!room.sortNumber) {
+      setValidateRoom((preErr) => ({
+        ...preErr,
+        sortNumber: {
+          error: true,
+          helperText: '请输入房间排序号',
+        },
+      }));
+      errorRoom = true;
+    }
+
+    if (errorRoom) {
+      return;
+    }
+
     const error = await store.addRoom(room);
     if (error) {
       console.log('error', error);
@@ -78,6 +158,18 @@ export default function AddRoom() {
   const onBlur = () => {
     // doFormatRoom();
   };
+
+  useEffect(() => {
+    async function getTagsFromStore() {
+      const gotTags: [] = (await store.getTags()) || [];
+      // setData(json);
+      setTags([...new Set(gotTags)]);
+    }
+    getTagsFromStore();
+
+    return () => {};
+  }, []);
+
   return (
     <div className="add-room">
       <FormControl sx={{ m: 1, width: '300px' }}>
@@ -89,11 +181,13 @@ export default function AddRoom() {
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
-            setRoom((preRoom: Room) => ({
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               sn: event.target.value ? event.target.value : '',
             }));
           }}
+          error={validateRoom.sn.error}
+          helperText={validateRoom.sn.helperText}
         />
       </FormControl>
 
@@ -106,11 +200,13 @@ export default function AddRoom() {
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
-            setRoom((preRoom: Room) => ({
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               name: event.target.value ? event.target.value : '',
             }));
           }}
+          error={validateRoom.name.error}
+          helperText={validateRoom.name.helperText}
         />
       </FormControl>
 
@@ -123,11 +219,13 @@ export default function AddRoom() {
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
-            setRoom((preRoom: Room) => ({
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               longName: event.target.value ? event.target.value : '',
             }));
           }}
+          error={validateRoom.longName.error}
+          helperText={validateRoom.longName.helperText}
         />
       </FormControl>
 
@@ -141,36 +239,46 @@ export default function AddRoom() {
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
-            setRoom((preRoom: Room) => ({
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               price: event.target.value ? parseInt(event.target.value, 10) : 0,
             }));
           }}
+          error={validateRoom.price.error}
+          // helperText={validateRoom.price.helperText}
           type="number"
           startAdornment={<InputAdornment position="start">¥</InputAdornment>}
         />
       </FormControl>
 
       <FormControl sx={{ display: 'block', m: 1 }}>
-        <InputLabel id="demo-simple-select-label">标签</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
+        {/* <InputLabel id="demo-simple-select-label">标签</InputLabel> */}
+        <TextField
+          select
           id="demo-simple-select"
           value={room.tag}
           onBlur={onBlur}
-          onChange={(event: SelectChangeEvent<string>) => {
-            setRoom((preRoom: Room) => ({
+          onChange={(
+            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+          ) => {
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               tag: event.target.value ? event.target.value : '',
             }));
           }}
           label="标签"
           sx={{ width: '280px' }}
+          error={validateRoom.tag.error}
+          helperText={validateRoom.tag.helperText}
         >
-          <MenuItem value="Ten">Ten</MenuItem>
-          <MenuItem value="Twenty">Twenty</MenuItem>
-          <MenuItem value="Thirty">Thirty</MenuItem>
-        </Select>
+          {tags.map((tag) => {
+            return (
+              <MenuItem key={tag} value={tag}>
+                {tag}
+              </MenuItem>
+            );
+          })}
+        </TextField>
       </FormControl>
 
       <FormControl sx={{ m: 1 }} variant="filled">
@@ -184,13 +292,15 @@ export default function AddRoom() {
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
-            setRoom((preRoom: Room) => ({
+            setRoom((preRoom: T_Room) => ({
               ...preRoom,
               sortNumber: event.target.value
                 ? parseInt(event.target.value, 10)
                 : 0,
             }));
           }}
+          error={validateRoom.sortNumber.error}
+          // helperText={validateRoom.sortNumber.helperText}
           startAdornment={
             <InputAdornment position="start">
               <SortByAlphaIcon />

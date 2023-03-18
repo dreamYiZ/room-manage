@@ -2,6 +2,8 @@ import { ACTION_TYPES } from '../../util/constant';
 import type { VALUES_ACTION_TYPES } from '../../util/constant';
 import AddRoom from '../AddRoom/AddRoom';
 import AddTag from '../AddTag/AddTag';
+import DeleteRoom from '../DeleteRoom/DeleteRoom';
+import SystemSettings from '../SystemSettings/SystemSettings';
 
 export default function SystemDrawerContent({
   activeSystemMenu,
@@ -13,11 +15,15 @@ export default function SystemDrawerContent({
       return <AddRoom />;
     }
     if (name === ACTION_TYPES.DELETE_ROOM) {
-      return 'deleteRoom';
+      return <DeleteRoom />;
     }
 
     if (name === ACTION_TYPES.ADD_TAG) {
       return <AddTag />;
+    }
+
+    if (name === ACTION_TYPES.SYSTEM_SETTINGS) {
+      return <SystemSettings />;
     }
 
     return '...';
