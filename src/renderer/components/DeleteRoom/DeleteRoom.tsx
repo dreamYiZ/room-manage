@@ -26,7 +26,6 @@ export default function DeleteRoom() {
     setAlertDeleteContent('');
     setOpenAlert(false);
     const gotRooms: [] = (await store.getAllRooms()) || [];
-    // setData(json);
     setRooms([...new Set(gotRooms)]);
   };
 
