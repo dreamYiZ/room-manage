@@ -26,17 +26,36 @@ const addRoom = (room: any) => {
   store.set('rooms', [...rooms, room]);
 };
 
+const getAllTags = () => {
+  return store.get('tags') || [];
+};
+
+const setAllTags = (tags: any) => {
+  return store.set('tags', tags);
+};
+const addTag = (tag: any) => {
+  setAllTags([...getAllTags(), tag]);
+};
+const deleteTag = (tag: any) => {
+  const newTags = getAllTags().filter((aTag: any) => aTag !== tag);
+  setAllTags(newTags);
+};
+
+const ipcAddTag = async (event: any, arg: any) => {
+  addTag(arg);
+};
+const ipcDeleteTag = async (event: any, arg: any) => {
+  deleteTag(arg);
+};
 const ipcAddRoom = async (event: any, arg: any) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  // console.log('event', event);
-  // console.log('arg', arg);
   addRoom(arg);
-  // event.reply('ipc-example', msgTemplate('pong'));
 };
 
 const ipcInit = (ipcMain: any) => {
-  ipcMain.on('ipc-add-room', ipcAddRoom);
+
+  ipcMain.handle('ipc-add-room', ipcAddRoom);
+  // ipcMain.handle('ipc-add-tag', ipcAddTag);
+  // ipcMain.handle('ipc-delete-tag', ipcDeleteTag);
 };
 
 export default {

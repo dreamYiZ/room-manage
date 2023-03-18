@@ -8,12 +8,11 @@ const getAllRooms = () => {
 };
 
 const addRoom = (room: any) => {
-  // const rooms = getAllRooms();
-  // console.log('getAllRooms', room, rooms);
-
-  window.electron.ipcRenderer.sendMessage('ipc-add-room', room);
-
-  // store.set('rooms',  )
+  window.electron.ipcRenderer.ipcMessage('ipc-add-room', room);
 };
 
-export default { addRoom, getAllRooms };
+const getTags = () => {};
+const addTag = () => {};
+const deleteTag = () => {};
+
+export default { addRoom, getAllRooms, getTags, addTag, deleteTag };

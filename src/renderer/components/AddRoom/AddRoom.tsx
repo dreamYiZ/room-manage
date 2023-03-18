@@ -42,15 +42,15 @@ export default function AddRoom() {
     store.addRoom(room);
   };
 
-  const doFormatRoom = () => {
-    // const newRoom: Room = { ...room };
-    // newRoom.price = parseInt(newRoom.price.toString(), 10);
-    // newRoom.sortNumber = parseInt(newRoom.sortNumber.toString(), 10);
-    // setRoom(newRoom);
-  };
+  // const doFormatRoom = () => {
+  // const newRoom: Room = { ...room };
+  // newRoom.price = parseInt(newRoom.price.toString(), 10);
+  // newRoom.sortNumber = parseInt(newRoom.sortNumber.toString(), 10);
+  // setRoom(newRoom);
+  // };
 
   const onBlur = () => {
-    doFormatRoom();
+    // doFormatRoom();
   };
   return (
     <div className="add-room">
