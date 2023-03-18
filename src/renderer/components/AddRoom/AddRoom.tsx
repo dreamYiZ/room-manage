@@ -14,6 +14,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DoneOutlineRoundedIcon from '@mui/icons-material/DoneOutlineRounded';
+import BaseSnakeBar from '../SnakeBar/BaseSnakeBar';
 import store from '../../store';
 import { ACTION_TYPES, VALUES_ACTION_TYPES } from '../../util/constant';
 
@@ -68,6 +69,9 @@ export default function AddRoom({
   const [openSnakeBar, setOpenSnakeBarOpen] = React.useState(false);
   const [room, setRoom] = useState<T_Room>(defaultRoom);
   const [validateRoom, setValidateRoom] = useState(defaultValidateRoom);
+
+  const [openSnakeBarError, setOpenSnakeBarError] = useState(false);
+  const [textSnakeBarError, setTextSnakeBarError] = useState('');
 
   let actionText = '添加';
   let actionButtonIcon = <AddIcon />;
@@ -170,8 +174,11 @@ export default function AddRoom({
     }
 
     if (!action || action === ACTION_TYPES.ADD_ROOM) {
-      const error = await store.addRoom(room);
-      if (error) {
+      const result = await store.addRoom(room);
+      // console.log('result', result);
+      if (result.error) {
+        setTextSnakeBarError(result.message || '已存在');
+        setOpenSnakeBarError(true);
         // console.log('error', error);
       } else {
         setOpenSnakeBarOpen(true);
@@ -387,6 +394,13 @@ export default function AddRoom({
           {actionText}房间成功！
         </Alert>
       </Snackbar>
+      <BaseSnakeBar
+        openSnakeBar={openSnakeBarError}
+        setOpenSnakeBarOpen={setOpenSnakeBarError}
+        severity="error"
+      >
+        {textSnakeBarError}
+      </BaseSnakeBar>
     </div>
   );
 }

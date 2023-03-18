@@ -73,7 +73,9 @@ export default function Room({
       </CardContent>
       <CardActions>
         {action === ACTION_TYPES.ORDER_ROOM && (
-          <Button size="small">预定</Button>
+          <Button size="small" variant="outlined">
+            预定
+          </Button>
         )}
 
         {action === ACTION_TYPES.EDIT_ROOM && (

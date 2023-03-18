@@ -11,6 +11,11 @@
 
 const Store = require('electron-store');
 
+type T_RESPONSE = {
+  error: number;
+  message: string;
+};
+
 const store = new Store();
 
 const getAllRooms = () => {
@@ -22,9 +27,20 @@ const deleteAllRooms = () => {
   store.set('rooms', []);
 };
 
-const addRoom = (room: any) => {
+const addRoom = (room: any): T_RESPONSE => {
   const rooms = getAllRooms();
+  if (rooms.some((_room: any) => _room.sn === room.sn)) {
+    return {
+      error: 1,
+      message: 'Room already exists',
+    };
+  }
+
   store.set('rooms', [...rooms, room]);
+  return {
+    error: 0,
+    message: 'Room added successfully',
+  };
 };
 
 const editRoom = (room: any) => {
@@ -73,8 +89,7 @@ const ipcGetTags = async () => {
 };
 
 const ipcAddRoom = async (event: any, arg: any) => {
-  addRoom(arg);
-  return 0;
+  return addRoom(arg);
 };
 const ipcGetRooms = async (event: any, arg: any) => {
   return getAllRooms();
