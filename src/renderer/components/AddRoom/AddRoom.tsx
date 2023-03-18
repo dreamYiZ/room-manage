@@ -8,12 +8,14 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DoneOutlineRoundedIcon from '@mui/icons-material/DoneOutlineRounded';
 import store from '../../store';
+import { ACTION_TYPES, VALUES_ACTION_TYPES } from '../../util/constant';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -32,15 +34,24 @@ export type T_Room = {
   tag: string;
 };
 
-export default function AddRoom() {
-  const defaultRoom: T_Room = {
-    sn: '',
-    name: '',
-    longName: '',
-    price: 0,
-    sortNumber: 0,
-    tag: '',
-  };
+const defaultRoom: T_Room = {
+  sn: '',
+  name: '',
+  longName: '',
+  price: 0,
+  sortNumber: 0,
+  tag: '',
+};
+
+export default function AddRoom({
+  action,
+  editRoom,
+  handleCloseEditRoom,
+}: {
+  action?: VALUES_ACTION_TYPES;
+  editRoom?: T_Room;
+  handleCloseEditRoom?: () => void;
+}) {
   const defaultValidateRoom = {
     sn: {
       helperText: '',
@@ -58,6 +69,13 @@ export default function AddRoom() {
   const [room, setRoom] = useState<T_Room>(defaultRoom);
   const [validateRoom, setValidateRoom] = useState(defaultValidateRoom);
 
+  let actionText = '添加';
+  let actionButtonIcon = <AddIcon />;
+  if (action === ACTION_TYPES.EDIT_ROOM) {
+    actionText = '编辑';
+    actionButtonIcon = <DoneOutlineRoundedIcon />;
+  }
+
   const handleSnackbarClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -70,7 +88,7 @@ export default function AddRoom() {
   };
 
   const onClickAddRoom = async () => {
-    console.log('onClickAddRoom');
+    // console.log('onClickAddRoom');
     // console.log(store.set('foo', 'foo bar'));
     let errorRoom = false;
     setValidateRoom(defaultValidateRoom);
@@ -140,11 +158,24 @@ export default function AddRoom() {
       return;
     }
 
-    const error = await store.addRoom(room);
-    if (error) {
-      console.log('error', error);
-    } else {
-      setOpenSnakeBarOpen(true);
+    if (action === ACTION_TYPES.EDIT_ROOM) {
+      const error = await store.editRoom(room);
+
+      if (error) {
+        return;
+      }
+      if (handleCloseEditRoom) {
+        handleCloseEditRoom();
+      }
+    }
+
+    if (!action || action === ACTION_TYPES.ADD_ROOM) {
+      const error = await store.addRoom(room);
+      if (error) {
+        // console.log('error', error);
+      } else {
+        setOpenSnakeBarOpen(true);
+      }
     }
   };
 
@@ -169,6 +200,15 @@ export default function AddRoom() {
 
     return () => {};
   }, []);
+
+  useEffect(() => {
+    if (action === ACTION_TYPES.EDIT_ROOM) {
+      if (editRoom) {
+        // console.log('editRoom', editRoom);
+        setRoom(editRoom);
+      }
+    }
+  }, [action, editRoom]);
 
   return (
     <div className="add-room">
@@ -310,14 +350,28 @@ export default function AddRoom() {
       </FormControl>
 
       <Divider light />
-      <FormControl sx={{ m: 1 }}>
+      <FormControl sx={{ m: 1, flexDirection: 'row' }}>
         <Button
           onClick={onClickAddRoom}
           variant="contained"
-          endIcon={<AddIcon />}
+          startIcon={actionButtonIcon}
         >
-          添加房间
+          {actionText}房间
         </Button>
+
+        {action === ACTION_TYPES.EDIT_ROOM && (
+          <Button
+            sx={{
+              ml: 1,
+              backgroundColor: 'info.dark',
+            }}
+            onClick={handleCloseEditRoom}
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+          >
+            返回
+          </Button>
+        )}
       </FormControl>
 
       <Snackbar
@@ -330,9 +384,15 @@ export default function AddRoom() {
           severity="success"
           sx={{ width: '100%' }}
         >
-          添加房间成功！
+          {actionText}房间成功！
         </Alert>
       </Snackbar>
     </div>
   );
 }
+
+AddRoom.defaultProps = {
+  action: '',
+  editRoom: defaultRoom,
+  handleCloseEditRoom: () => {},
+};

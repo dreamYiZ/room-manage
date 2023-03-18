@@ -13,6 +13,10 @@ const addRoom = (room: any) => {
   return window.electron.ipcRenderer.invoke('ipc-add-room', room);
 };
 
+const editRoom = (room: any) => {
+  return window.electron.ipcRenderer.invoke('ipc-edit-room', room);
+};
+
 const deleteRoom = (room: any) => {
   return window.electron.ipcRenderer.sendMessage('ipc-delete-room', room);
 };
@@ -35,4 +39,5 @@ export default {
   addTag,
   deleteTag,
   deleteAllRooms,
+  editRoom,
 };

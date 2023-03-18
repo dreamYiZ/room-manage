@@ -14,8 +14,13 @@ export default function SystemDrawerContent({
     if (name === ACTION_TYPES.ADD_ROOM) {
       return <AddRoom />;
     }
+
+    if (name === ACTION_TYPES.EDIT_ROOM) {
+      return <DeleteRoom action={ACTION_TYPES.EDIT_ROOM} />;
+    }
+
     if (name === ACTION_TYPES.DELETE_ROOM) {
-      return <DeleteRoom />;
+      return <DeleteRoom action={ACTION_TYPES.DELETE_ROOM} />;
     }
 
     if (name === ACTION_TYPES.ADD_TAG) {
