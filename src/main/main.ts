@@ -32,8 +32,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
-store.ipcInit(ipcMain);
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -61,7 +59,7 @@ const installExtensions = async () => {
 
 const createWindow = async () => {
   if (isDebug) {
-    await installExtensions();
+    // await installExtensions();
   }
 
   const RESOURCES_PATH = app.isPackaged
@@ -130,6 +128,8 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    store.ipcInit(ipcMain);
+
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

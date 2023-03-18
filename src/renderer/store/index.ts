@@ -8,11 +8,17 @@ const getAllRooms = () => {
 };
 
 const addRoom = (room: any) => {
-  window.electron.ipcRenderer.ipcMessage('ipc-add-room', room);
+  return window.electron.ipcRenderer.invoke('ipc-add-room', room);
 };
 
-const getTags = () => {};
-const addTag = () => {};
-const deleteTag = () => {};
+const getTags = () => {
+  return window.electron.ipcRenderer.invoke('ipc-get-tags');
+};
+const addTag = (tag) => {
+  return window.electron.ipcRenderer.invoke('ipc-add-tag', tag);
+};
+const deleteTag = (tag) => {
+  return window.electron.ipcRenderer.invoke('ipc-delete-tag', tag);
+};
 
 export default { addRoom, getAllRooms, getTags, addTag, deleteTag };

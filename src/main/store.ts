@@ -31,7 +31,7 @@ const getAllTags = () => {
 };
 
 const setAllTags = (tags: any) => {
-  return store.set('tags', tags);
+  return store.set('tags', [...new Set(tags)]);
 };
 const addTag = (tag: any) => {
   setAllTags([...getAllTags(), tag]);
@@ -47,15 +47,20 @@ const ipcAddTag = async (event: any, arg: any) => {
 const ipcDeleteTag = async (event: any, arg: any) => {
   deleteTag(arg);
 };
+const ipcGetTags = async () => {
+  return getAllTags();
+};
+
 const ipcAddRoom = async (event: any, arg: any) => {
   addRoom(arg);
+  return 0;
 };
 
 const ipcInit = (ipcMain: any) => {
-
   ipcMain.handle('ipc-add-room', ipcAddRoom);
-  // ipcMain.handle('ipc-add-tag', ipcAddTag);
-  // ipcMain.handle('ipc-delete-tag', ipcDeleteTag);
+  ipcMain.handle('ipc-add-tag', ipcAddTag);
+  ipcMain.handle('ipc-delete-tag', ipcDeleteTag);
+  ipcMain.handle('ipc-get-tags', ipcGetTags);
 };
 
 export default {

@@ -160,4 +160,4 @@ MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplat
 
 ## how to run
 
-npm run start
+npm start

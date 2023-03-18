@@ -11,7 +11,17 @@ import Divider from '@mui/material/Divider';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import store from '../../store';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 type Room = {
   sn: string;
@@ -33,13 +43,29 @@ const defaultRoom: Room = {
 
 export default function AddRoom() {
   const [tags, setTags] = React.useState({});
-
+  const [openSnakeBar, setOpenSnakeBarOpen] = React.useState(false);
   const [room, setRoom] = useState<Room>(defaultRoom);
 
-  const onClickAddRoom = () => {
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnakeBarOpen(false);
+  };
+
+  const onClickAddRoom = async () => {
     console.log('onClickAddRoom');
     // console.log(store.set('foo', 'foo bar'));
-    store.addRoom(room);
+    const error = await store.addRoom(room);
+    if (error) {
+      console.log('error', error);
+    } else {
+      setOpenSnakeBarOpen(true);
+    }
   };
 
   // const doFormatRoom = () => {
@@ -183,6 +209,20 @@ export default function AddRoom() {
           添加房间
         </Button>
       </FormControl>
+
+      <Snackbar
+        open={openSnakeBar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          添加房间成功！
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
