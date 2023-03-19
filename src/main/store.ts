@@ -100,10 +100,10 @@ const ipcGetTags = async () => {
 const ipcAddRoom = async (event: any, arg: any) => {
   return addRoom(arg);
 };
-const ipcGetRooms = async (event: any, arg: any) => {
+const ipcGetRooms = async () => {
   return getAllRooms();
 };
-const ipcDeleteAllRooms = async (event: any, arg: any) => {
+const ipcDeleteAllRooms = async () => {
   deleteAllRooms();
 };
 const ipcDeleteRoom = async (event: any, arg: any) => {

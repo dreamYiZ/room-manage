@@ -10,21 +10,15 @@ import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DoneOutlineRoundedIcon from '@mui/icons-material/DoneOutlineRounded';
 import BaseSnakeBar from '../SnakeBar/BaseSnakeBar';
 import store from '../../store';
-import { ACTION_TYPES, VALUES_ACTION_TYPES } from '../../util/constant';
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import {
+  ACTION_TYPES,
+  CONFIG_TEXT,
+  VALUES_ACTION_TYPES,
+} from '../../util/constant';
 
 export type T_Room = {
   sn: string;
@@ -74,27 +68,14 @@ export default function AddRoom({
   const [openSnakeBarError, setOpenSnakeBarError] = useState(false);
   const [textSnakeBarError, setTextSnakeBarError] = useState('');
 
-  let actionText = '添加';
+  let actionText = CONFIG_TEXT.ADD_ROOM_ACTION_ADD;
   let actionButtonIcon = <AddIcon />;
   if (action === ACTION_TYPES.EDIT_ROOM) {
-    actionText = '编辑';
+    actionText = CONFIG_TEXT.ADD_ROOM_ACTION_EDIT;
     actionButtonIcon = <DoneOutlineRoundedIcon />;
   }
 
-  const handleSnackbarClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenSnakeBarOpen(false);
-  };
-
   const onClickAddRoom = async () => {
-    // console.log('onClickAddRoom');
-    // console.log(store.set('foo', 'foo bar'));
     let errorRoom = false;
     setValidateRoom(defaultValidateRoom);
 
@@ -103,7 +84,7 @@ export default function AddRoom({
         ...preErr,
         sn: {
           error: true,
-          helperText: '请输入房间编号',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_SN,
         },
       }));
       errorRoom = true;
@@ -113,7 +94,7 @@ export default function AddRoom({
         ...preErr,
         name: {
           error: true,
-          helperText: '请输入房间简称',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_NAME,
         },
       }));
       errorRoom = true;
@@ -123,7 +104,7 @@ export default function AddRoom({
         ...preErr,
         longName: {
           error: true,
-          helperText: '请输入房间名称',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_LONG_NAME,
         },
       }));
       errorRoom = true;
@@ -133,7 +114,7 @@ export default function AddRoom({
         ...preErr,
         price: {
           error: true,
-          helperText: '请输入房间价格',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_PRICE,
         },
       }));
       errorRoom = true;
@@ -143,7 +124,7 @@ export default function AddRoom({
         ...preErr,
         tag: {
           error: true,
-          helperText: '请选择房间标签',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_TAG,
         },
       }));
       errorRoom = true;
@@ -153,7 +134,7 @@ export default function AddRoom({
         ...preErr,
         sortNumber: {
           error: true,
-          helperText: '请输入房间排序号',
+          helperText: CONFIG_TEXT.ADD_ROOM_HELP_TEXT_SORT_NUMBER,
         },
       }));
       errorRoom = true;
@@ -176,11 +157,9 @@ export default function AddRoom({
 
     if (!action || action === ACTION_TYPES.ADD_ROOM) {
       const result = await store.addRoom(room);
-      // console.log('result', result);
       if (result.error) {
         setTextSnakeBarError(result.message || '已存在');
         setOpenSnakeBarError(true);
-        // console.log('error', error);
       } else {
         setOpenSnakeBarOpen(true);
       }
@@ -222,7 +201,7 @@ export default function AddRoom({
     <div className="add-room">
       <FormControl sx={{ m: 1, width: '300px' }}>
         <TextField
-          label="房间编号"
+          label={CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_SN}
           variant="outlined"
           value={room.sn}
           onBlur={onBlur}
@@ -241,7 +220,7 @@ export default function AddRoom({
 
       <FormControl sx={{ m: 1, width: '300px' }}>
         <TextField
-          label="房间简称"
+          label={CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_NAME}
           variant="outlined"
           onBlur={onBlur}
           value={room.name}
@@ -260,7 +239,7 @@ export default function AddRoom({
 
       <FormControl sx={{ m: 1 }} fullWidth>
         <TextField
-          label="房间名称"
+          label={CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_LONG_NAME}
           variant="outlined"
           onBlur={onBlur}
           value={room.longName}
@@ -279,7 +258,7 @@ export default function AddRoom({
 
       <FormControl sx={{ m: 1 }} variant="filled">
         <InputLabel size="normal" htmlFor="filled-adornment-amount">
-          房间价格
+          {CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_LONG_NAME}
         </InputLabel>
         <FilledInput
           value={room.price}
@@ -314,7 +293,7 @@ export default function AddRoom({
               tag: event.target.value ? event.target.value : '',
             }));
           }}
-          label="标签"
+          label={CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_TAG}
           sx={{ width: '280px' }}
           error={validateRoom.tag.error}
           helperText={validateRoom.tag.helperText}
@@ -331,7 +310,7 @@ export default function AddRoom({
 
       <FormControl sx={{ m: 1 }} variant="filled">
         <InputLabel size="normal" htmlFor="filled-adornment-amount">
-          房间排序号
+          {CONFIG_TEXT.ADD_ROOM_ACTION_LABEL_SORT_NUMBER}
         </InputLabel>
         <FilledInput
           type="number"
@@ -364,7 +343,7 @@ export default function AddRoom({
           variant="contained"
           startIcon={actionButtonIcon}
         >
-          {actionText}房间
+          {`${actionText}${CONFIG_TEXT.ROOM}`}
         </Button>
 
         {action === ACTION_TYPES.EDIT_ROOM && (
@@ -377,24 +356,19 @@ export default function AddRoom({
             variant="outlined"
             startIcon={<ArrowBackIcon />}
           >
-            返回
+            {CONFIG_TEXT.ADD_ROOM_ACTION_BACK}
           </Button>
         )}
       </FormControl>
 
-      <Snackbar
-        open={openSnakeBar}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
+      <BaseSnakeBar
+        openSnakeBar={openSnakeBar}
+        setOpenSnakeBarOpen={setOpenSnakeBarOpen}
+        severity="success"
       >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity="success"
-          sx={{ width: '100%' }}
-        >
-          {actionText}房间成功！
-        </Alert>
-      </Snackbar>
+        {actionText}房间成功！
+      </BaseSnakeBar>
+
       <BaseSnakeBar
         openSnakeBar={openSnakeBarError}
         setOpenSnakeBarOpen={setOpenSnakeBarError}

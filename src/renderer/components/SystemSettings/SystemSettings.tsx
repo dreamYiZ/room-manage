@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { CONFIG_TEXT } from 'renderer/util/constant';
 import store from '../../store';
 
 export default function SystemSettings() {
@@ -9,7 +10,7 @@ export default function SystemSettings() {
   return (
     <Box sx={{ m: 1 }}>
       <Button color="secondary" variant="contained" onClick={deleteAllRooms}>
-        删除所有房间
+        {CONFIG_TEXT.SYSTEM_BUTTON_DELETE_ALL_ROOMS}
       </Button>
     </Box>
   );

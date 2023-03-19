@@ -3,6 +3,7 @@ import React from 'react';
 import TocRoundedIcon from '@mui/icons-material/TocRounded';
 import LowPriorityRoundedIcon from '@mui/icons-material/LowPriorityRounded';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+import { CONFIG_TEXT } from '../../util/constant';
 
 function Menu({
   menuActive,
@@ -23,7 +24,7 @@ function Menu({
           onKeyDown={() => setMenuActive(0)}
         >
           <TocRoundedIcon fontSize="large" />
-          <div className="menu-text">订房</div>
+          <div className="menu-text">{CONFIG_TEXT.ORDER_ROOM}</div>
         </div>
         <div
           role="presentation"
@@ -34,7 +35,7 @@ function Menu({
           onKeyDown={() => setMenuActive(1)}
         >
           <LowPriorityRoundedIcon fontSize="large" />
-          <div className="menu-text">退房</div>
+          <div className="menu-text">{CONFIG_TEXT.CHECKOUT_ROOM}</div>
         </div>
       </div>
       <div className="bottom-menu">
@@ -47,7 +48,7 @@ function Menu({
           onKeyDown={() => setMenuActive(2)}
         >
           <SettingsSuggestRoundedIcon fontSize="large" />
-          <div className="menu-text">设置</div>
+          <div className="menu-text">{CONFIG_TEXT.SYSTEM}</div>
         </div>
       </div>
     </div>

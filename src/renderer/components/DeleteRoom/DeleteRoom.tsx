@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Room from '../Room/Room';
-import { T_Room } from '../AddRoom/AddRoom';
+import AddRoom, { T_Room } from '../AddRoom/AddRoom';
 import store from '../../store';
-import { VALUES_ACTION_TYPES } from '../../util/constant';
+import { CONFIG_TEXT, VALUES_ACTION_TYPES } from '../../util/constant';
 import AlertDialog from '../AlertDialog/AlertDialog';
-import AddRoom from '../AddRoom/AddRoom';
 
 export default function DeleteRoom({
   action,
@@ -89,13 +88,13 @@ export default function DeleteRoom({
       </Box>
 
       <AlertDialog
-        title="删除此房间？"
+        title={`删除此房间:${roomToDelete?.name}？`}
         open={openAlert}
         handleClose={cancelAlertDelete}
         handleOk={handleOkDelete}
         content={alertDeleteContent}
-        okText="确定"
-        cancelText="取消"
+        okText={CONFIG_TEXT.OK_TEXT}
+        cancelText={CONFIG_TEXT.CANCEL_TEXT}
       />
 
       <Box
