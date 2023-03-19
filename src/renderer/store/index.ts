@@ -31,6 +31,13 @@ const deleteTag = (tag) => {
   return window.electron.ipcRenderer.invoke('ipc-delete-tag', tag);
 };
 
+const orderRoom = (room: any) => {
+  return window.electron.ipcRenderer.sendMessage('ipc-order-room', room);
+};
+const checkoutRoom = (room: any) => {
+  return window.electron.ipcRenderer.sendMessage('ipc-checkout-room', room);
+};
+
 export default {
   addRoom,
   getAllRooms,
@@ -40,4 +47,6 @@ export default {
   deleteTag,
   deleteAllRooms,
   editRoom,
+  orderRoom,
+  checkoutRoom,
 };

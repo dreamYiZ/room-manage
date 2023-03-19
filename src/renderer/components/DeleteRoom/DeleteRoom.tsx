@@ -50,7 +50,7 @@ export default function DeleteRoom({
 
   const handleOkDelete = () => {
     store.deleteRoom(roomToDelete);
-    resetDelete();
+    setTimeout(resetDelete, 300);
   };
 
   const onClickEdit = (room: T_Room) => {

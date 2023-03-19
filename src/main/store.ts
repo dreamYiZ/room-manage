@@ -53,6 +53,15 @@ const editRoom = (room: any) => {
   store.set('rooms', rooms);
 };
 
+const orderRoom = (room: any) => {
+  const newRoom = { ...room, use: { name: 'somebody' } };
+  editRoom(newRoom);
+};
+const checkoutRoom = (room: any) => {
+  const newRoom = { ...room, use: null };
+  editRoom(newRoom);
+};
+
 const deleteRoom = (room: any) => {
   const rooms = getAllRooms();
   store.set(
@@ -104,8 +113,16 @@ const ipcDeleteRoom = async (event: any, arg: any) => {
 const ipcEditRoom = async (event: any, arg: any) => {
   editRoom(arg);
 };
+const ipcOrderRoom = async (event: any, arg: any) => {
+  orderRoom(arg);
+};
+const ipcCheckoutRoom = async (event: any, arg: any) => {
+  checkoutRoom(arg);
+};
 
 const ipcInit = (ipcMain: any) => {
+  ipcMain.on('ipc-order-room', ipcOrderRoom);
+  ipcMain.on('ipc-checkout-room', ipcCheckoutRoom);
   ipcMain.on('ipc-delete-all-rooms', ipcDeleteAllRooms);
   ipcMain.on('ipc-delete-room', ipcDeleteRoom);
   ipcMain.handle('ipc-add-room', ipcAddRoom);

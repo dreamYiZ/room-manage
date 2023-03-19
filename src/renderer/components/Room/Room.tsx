@@ -17,11 +17,15 @@ export default function Room({
   action,
   onClickDelete,
   onClickEdit,
+  onClickOrderRoom,
+  onClickCheckoutRoom,
 }: {
   room: T_Room;
   action: VALUES_ACTION_TYPES;
   onClickDelete?: () => void;
   onClickEdit?: () => void;
+  onClickOrderRoom?: () => void;
+  onClickCheckoutRoom?: () => void;
 }) {
   return (
     <Card sx={{ width: 160, m: 1, height: 260 }}>
@@ -73,8 +77,19 @@ export default function Room({
       </CardContent>
       <CardActions>
         {action === ACTION_TYPES.ORDER_ROOM && (
-          <Button size="small" variant="outlined">
+          <Button size="small" variant="outlined" onClick={onClickOrderRoom}>
             预定
+          </Button>
+        )}
+
+        {action === ACTION_TYPES.CHECKOUT_ROOM && (
+          <Button
+            color="secondary"
+            size="small"
+            variant="outlined"
+            onClick={onClickCheckoutRoom}
+          >
+            退房
           </Button>
         )}
 
@@ -107,4 +122,6 @@ export default function Room({
 Room.defaultProps = {
   onClickDelete: () => {},
   onClickEdit: () => {},
+  onClickOrderRoom: () => {},
+  onClickCheckoutRoom: () => {},
 };

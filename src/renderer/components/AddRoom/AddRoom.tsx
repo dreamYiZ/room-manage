@@ -33,6 +33,7 @@ export type T_Room = {
   price: number;
   sortNumber: number;
   tag: string;
+  use?: any;
 };
 
 const defaultRoom: T_Room = {
