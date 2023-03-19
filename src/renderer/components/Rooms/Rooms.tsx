@@ -112,22 +112,24 @@ function Rooms({ show, menuActive }: { show: boolean; menuActive: number }) {
   };
 
   const getFilteredRoms = () => {
-    return rooms.filter((_room) => {
-      if (action === ACTION_TYPES.CHECKOUT_ROOM) {
-        if (_room.use) {
-          return true;
-        }
-        return false;
-      }
-
-      if (action === ACTION_TYPES.ORDER_ROOM) {
-        if (_room.use) {
+    return rooms
+      .filter((_room: T_Room) => {
+        if (action === ACTION_TYPES.CHECKOUT_ROOM) {
+          if (_room.use) {
+            return true;
+          }
           return false;
         }
+
+        if (action === ACTION_TYPES.ORDER_ROOM) {
+          if (_room.use) {
+            return false;
+          }
+          return true;
+        }
         return true;
-      }
-      return true;
-    });
+      })
+      .sort((a: T_Room, b: T_Room) => a.sortNumber - b.sortNumber);
   };
   return (
     <div style={{ display: `${show ? 'block' : 'none'}` }} className="rooms">
