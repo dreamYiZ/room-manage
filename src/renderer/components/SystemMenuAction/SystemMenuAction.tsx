@@ -34,6 +34,7 @@ function SystemMenuAction({
               height: '100%',
               backgroundColor: 'primary.light',
               padding: '20px',
+              overflowY: 'auto',
             }}
           >
             <SystemMenuActiveLastBreadcrumb
