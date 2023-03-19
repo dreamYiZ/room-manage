@@ -55,7 +55,7 @@ const orderRoom = (room: any) => {
 // 定义一下个函数（function），用户结账（checkout）一间房间（room）
 const checkoutRoom = (room: any) => {
   // 调用 Electron 的 ipcRender 模块（module），发出一条消息（message）给主进程（main process），并且带上了参数（parameter）room
-  return window.electron.ipcRender.sendMessage('ipc-checkout-room', room);
+  return window.electron.ipcRenderer.sendMessage('ipc-checkout-room', room);
 };
 
 export default {
